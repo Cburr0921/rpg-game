@@ -128,7 +128,7 @@ function createPlayerHTML(property){
 // document.onclick = function(){}
 // generic click event for dynamically created elemenets 
 document.addEventListener("click", function(event){
-
+console.log("click")
 
     //on click of a dynamically created charachter card button 
     if(charachters[`${event.target.id}`] !== undefined) {
@@ -147,6 +147,12 @@ document.addEventListener("click", function(event){
     if(event.target.id === "attack"){
         fight()
     }
+   
+    if(event.target.id === "reset"){
+        resetGame()
+    }
+
+
 });
 
 function renderFightBtn(){
@@ -162,7 +168,10 @@ function renderFightBtn(){
 function fightSetUp(event){
             //console.log("yes")
             // pushes whatever the clicked id to the currentPlayers array
-            currentPlayers.push(event.target.id)
+            if (currentPlayers.indexOf(event.target.id) === -1){
+                currentPlayers.push(event.target.id)
+
+            }
             // creatign a variable to go to the document to grab the card for each charachter
             var char = document.getElementById(`${event.target.id}-wrap`)
             // removing the card form the all players wrap
@@ -199,6 +208,16 @@ function fight(){
     var fHpWrap = document.getElementById(`${currentPlayers[0]}-hp`)
     var oHpWrap = document.getElementById(`${currentPlayers[1]}-hp`)
     var fightBtn = document.getElementById("attack")
+    var messageWrap = document.getElementById("message-wrap")
+
+    var resetBtn = document.createElement("button")
+    resetBtn.setAttribute("id", "reset")
+    resetBtn.setAttribute("class", "btn btn-warning btn-lg")
+    resetBtn.setAttribute("type", "button")
+    resetBtn.textContent = "Reset"
+
+    
+    messageWrap.textContent = ""
 
     if(charachters[currentPlayers[0]].hp > 0 && charachters[currentPlayers[1]].hp > 0){
         //subtract fighter ap from opponents hp
@@ -213,6 +232,8 @@ function fight(){
             var fCard = document.getElementById(`${currentPlayers[0]}-wrap`)
             fCard.remove()
             fightBtn.remove()
+            messageWrap.textContent = "You lost! Press reset to play again."
+            messageWrap.appendChild(resetBtn)
         }
         else if(charachters[currentPlayers[1]].hp < 0 || charachters[currentPlayers[1]].hp === 0 ){
             var opCard = document.getElementById(`${currentPlayers[1]}-wrap`)
@@ -221,6 +242,9 @@ function fight(){
             currentPlayers.pop()
             charachters[currentPlayers[0]].hp = charachters[currentPlayers[0]].hp + 55
             fHpWrap.textContent = `HP: ${charachters[currentPlayers[0]].hp}`
+            messageWrap.textContent = "You won! Select another oponent or press reset to play again."
+            messageWrap.appendChild(resetBtn)
+
 
         }
     }
@@ -229,6 +253,8 @@ function fight(){
             var fCard = document.getElementById(`${currentPlayers[0]}-wrap`)
             fCard.remove()
             fightBtn.remove()
+            messageWrap.textContent = "You lost! Press reset to play again."
+            messageWrap.appendChild(resetBtn)
 
 
         }
@@ -239,13 +265,57 @@ function fight(){
             currentPlayers.pop()
             charachters[currentPlayers[0]].hp = charachters[currentPlayers[0]].hp + 55
             fHpWrap.textContent = `HP: ${charachters[currentPlayers[0]].hp}`
+            messageWrap.textContent = "You won! Select another oponent or press reset to play again."
+            messageWrap.appendChild(resetBtn)
+
 
         }
     }
 }
 
 function resetGame(){
+     charachters = {
+        finn: {
+            hp:100,
+            ap:15
+        },
+        iceking:{
+            hp:85,
+            ap:5
+            
+        },
+        jake:{
+            hp:150,
+            ap:10
+            
+        },
+        lemongrab:{
+            hp:70,
+            ap:10
+            
+        }
+    
+    }
+    var allPlayersWrap = document.getElementById("all-players-wrap")
+    allPlayersWrap.innerHTML = ""
+    
+    var messageWrap = document.getElementById("message-wrap")
+    messageWrap.innerHTML = ""
 
+    var fighterWrap = document.getElementById("fighter-wrap")
+    fighterWrap.innerHTML = ""
+
+    var attackWrap = document.getElementById("attack-btn-wrap")
+    attackWrap.innerHTML = ""
+
+    var opponentWrap = document.getElementById("opponent-wrap")
+    opponentWrap.innerHTML = ""
+
+    currentPlayers = []
+
+
+    playGame()
+ 
 }
 
 function playGame(){

@@ -2,9 +2,40 @@ body {
     background:url(../imgs/adventure_time.png) no-repeat fixed;
 }
 .card {
-    height:18rem;
+    height:auto;
+    min-height: 375px;
     width: 18rem;
     background-color: white;
     float: left;
     margin: 10px;
 }
+
+.char-card button.btn-primary{
+    bottom: 20px;
+    position: absolute;
+    width: 95%;
+    left: 8px;
+}
+#attack{
+    margin: 50% auto;
+}
+#message-wrap{
+    font-size: 38px;
+    color: rgb(0, 140, 255);
+    text-align: center;
+}
+#reset{
+    display: block;
+    margin: auto;
+}
+.header{
+    text-align: center;
+    color: rgb(0, 140, 255);
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.header h1{
+    font-family: 'Righteous', cursive;
+    color: #3f3fbf;
+}
+
